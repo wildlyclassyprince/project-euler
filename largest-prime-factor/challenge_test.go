@@ -5,7 +5,7 @@ import "testing"
 func TestPrimeFactors(t *testing.T) {
 	t.Run("test generated factors of 13195", func(t *testing.T) {
 		got := generateFactors(13195)
-		want := nil
+		want := []int{5, 7, 13, 29}
 		assertSequence(t, got, want)
 	})
 	t.Run("test largest prime factor of 13195", func(t *testing.T) {
