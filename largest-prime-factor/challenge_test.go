@@ -11,11 +11,11 @@ func TestPrimeFactors(t *testing.T) {
 		want := []int{1, 5, 7, 13, 29, 35, 65, 91, 145, 203, 377, 455, 1015, 1885, 2639}
 		assertSequence(t, got, want)
 	})
-	t.Run("test largest prime factor of 13195", func(t *testing.T) {
+	t.Run("test prime factors of 13195", func(t *testing.T) {
 		seq := generateFactors(13195)
-		got := largestPrimeFactor(seq)
-		want := 29
-		assertLargestPrime(t, got, want)
+		got := primeFactor(seq)
+		want := []int{5, 7, 13, 29}
+		assertSequence(t, got, want)
 	})
 }
 
