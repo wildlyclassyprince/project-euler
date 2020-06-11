@@ -23,4 +23,3 @@ func Sum(m1, m2, limit int) int {
 	}
 	return result
 }
-whats
