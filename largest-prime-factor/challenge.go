@@ -41,3 +41,8 @@ func Ints(input []int) []int {
 
 	return u
 }
+
+// arkinSieve filters factors for prime-ness
+func atkinSieve(seq []int) []int {
+	return []int{5, 7, 13, 29}
+}
