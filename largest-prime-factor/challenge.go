@@ -3,7 +3,7 @@ package main
 import "fmt"
 
 func main() {
-	const limit = 100000
+	const limit = 600851475143
 	var nums []int
 	primes := make(chan int)
 	go primeSieve(primes)
