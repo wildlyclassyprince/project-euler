@@ -1,48 +1,72 @@
 package main
 
-func generateFactors(n int) []int {
-	var seq []int
+import "fmt"
 
-	for i := 1; i < n; i++ {
-		if n%i == 0 {
-			seq = append(seq, i)
+func main() {
+	const limit = 100000
+	var nums []int
+	primes := make(chan int)
+	go primeSieve(primes)
+
+	p := <-primes
+	for p < limit {
+		if limit%p == 0 {
+			nums = append(nums, p)
 		}
+		p = <-primes
 	}
-	return seq
+	fmt.Printf("%v", nums)
+	fmt.Println()
+	fmt.Printf("Max: %d", findMax(nums))
 }
 
-func primeFactor(seq []int) []int {
-	var seq2 []int
-	for _, v := range seq {
-		if v > 1 {
-			for i := 2; i < v; i++ {
-				if v%i == 0 {
-					break
-				} else {
-					seq2 = append(seq2, v)
-				}
+func primeSieve(out chan int) {
+	out <- 2
+	out <- 3
+
+	primes := make(chan int)
+	go primeSieve(primes)
+
+	var p int
+	p = <-primes
+	p = <-primes
+
+	sieve := make(map[int]int)
+	q := p * p
+	n := p
+
+	for {
+		n += 2
+		step, isComposite := sieve[n]
+		if isComposite {
+			delete(sieve, n)
+			m := n + step
+			for sieve[m] != 0 {
+				m += step
 			}
+			sieve[m] = step
+
+		} else if n < q {
+			out <- n
+
+		} else {
+			step = p + p
+			m := n + step
+			for sieve[m] != 0 {
+				m += step
+			}
+			sieve[m] = step
+			p = <-primes
+			q = p * p
 		}
 	}
-	return Ints(seq2)
 }
 
-// Ints returns a unique subset of the int slice provided.
-func Ints(input []int) []int {
-	u := make([]int, 0, len(input))
-	m := make(map[int]bool)
-
-	for _, val := range input {
-		if _, ok := m[val]; !ok {
-			m[val] = true
-			u = append(u, val)
+func findMax(nums []int) int {
+	for i := 1; i < len(nums); i++ {
+		if nums[0] < nums[i] {
+			nums[0] = nums[i]
 		}
 	}
-
-	return u
-}
-
-// arkinSieve filters factors for prime-ness
-func atkinSieve(seq []int) []int {
-	return []int{5, 7, 13, 29}
+	return nums[0]
 }
